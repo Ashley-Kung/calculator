@@ -1,20 +1,20 @@
 function add(x,y) {
-  return parseInt(x) + parseInt(y);
+  return parseFloat(x) + parseFloat(y);
 }
 
 function subtract(x,y) {
-  return x - y;
+  return parseFloat(x) - parseFloat(y);
 }
 
 function multiply(x,y) {
-  return x * y;
+  return parseFloat(x) * parseFloat(y);
 }
 
 function divide(x,y) {
   if (y === 0) {
     return 'CAN\'T DIVIDE BY ZERO FOOL!'
   }
-  return x / y;
+  return parseFloat(x) / parseFloat(y);
 }
 
 function operate(operator, x, y) {
@@ -55,6 +55,14 @@ calculator.addEventListener('click', function(event) {
 	firstNum = '';
 	secondNum = '';
     return;
+  }
+  if (event.target.id === '.') {
+	if (!displayedNum.includes('.')) {
+	  display.textContent = displayedNum + '.'
+	} else if (previousKeyType === 'operator') {
+		display.textContent = '0.';
+	}
+		  previousKeyType = '';
   }
   if (event.target.id === '*') {
     operator = '*';
