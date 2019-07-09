@@ -32,44 +32,55 @@ let operator = '';
 let result = 0;
 let numsPressed = 0;
 let operatorsPressed = 0;
-let currNum = '';
+let firstNum = '';
+let secondNum = '';
+let previousKeyType = '';
 calculator.addEventListener('click', function(event) {
+	let displayedNum = display.textContent;
   if (!isNaN(parseInt(event.target.id))) {
-    if (currNum === '') {
-      values.push(event.target.id);
+	  if (displayedNum === '0' || previousKeyType === 'operator') {
+//      values.push(event.target.id);
       display.textContent = event.target.id;
-    }
+	  previousKeyType = '';
+	  } else {
+		  display.textContent = displayedNum + event.target.id;
+	  }
   }
   if (event.target.id === 'clear') {
-    display.textContent = '';
+    display.textContent = '0';
     values = [];
     result = 0;
     operator = '';
     numsPressed = 0;
+	firstNum = '';
+	secondNum = '';
     return;
   }
   if (event.target.id === '*') {
     operator = '*';
-    currNum = '';
+	previousKeyType = 'operator';
+    firstNum = display.textContent;
   }
   if (event.target.id === '/') {
     operator = '/';
-    currNum = '';
+	previousKeyType = 'operator';
+    firstNum = display.textContent;
   }
   if (event.target.id === '+') {
     operator = '+';
-    currNum = '';
+	previousKeyType = 'operator';
+    firstNum = display.textContent;
   }
   if (event.target.id === '-') {
     operator = '-';
-    currNum = '';
+	previousKeyType = 'operator';
+    firstNum = display.textContent;
   }
   if (event.target.id === '=') {
-    if (values.length === 2) {
-    result = operate(operator, values[0], values[1]);
+	secondNum = display.textContent;
+    result = operate(operator, firstNum, secondNum);
     console.log(result);
     display.textContent = result;
     values = [result];
-  }
 }
 });
