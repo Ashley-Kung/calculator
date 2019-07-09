@@ -38,15 +38,16 @@ let previousKeyType = '';
 calculator.addEventListener('click', function(event) {
 	let displayedNum = display.textContent;
   if (!isNaN(parseInt(event.target.id))) {
-	  if (displayedNum === '0' || previousKeyType === 'operator') {
+	  if (displayedNum === '0' || previousKeyType === 'operator' || previousKeyType === 'equals') {
 //      values.push(event.target.id);
       display.textContent = event.target.id;
-	  previousKeyType = '';
+	  previousKeyType = 'number';
 	  } else {
 		  display.textContent = displayedNum + event.target.id;
 	  }
   }
   if (event.target.id === 'clear') {
+	previousKeyType = '';
     display.textContent = '0';
     values = [];
     result = 0;
@@ -57,38 +58,58 @@ calculator.addEventListener('click', function(event) {
     return;
   }
   if (event.target.id === '.') {
-	if (!displayedNum.includes('.')) {
+	if (!displayedNum.includes('.') && previousKeyType !== 'equals') {
 	  display.textContent = displayedNum + '.'
-	} else if (previousKeyType === 'operator') {
+	} else if (previousKeyType === 'operator' || previousKeyType === 'equals') {
 		display.textContent = '0.';
 	}
 		  previousKeyType = '';
   }
   if (event.target.id === '*') {
+	  	  if (firstNum && operator && previousKeyType !== 'operator' && previousKeyType !== 'equals') {
+		  display.textContent = operate(operator, firstNum, display.textContent);
+	  }
     operator = '*';
 	previousKeyType = 'operator';
     firstNum = display.textContent;
+	
   }
   if (event.target.id === '/') {
+	  	  if (firstNum && operator && previousKeyType !== 'operator' && previousKeyType !== 'equals') {
+		  display.textContent = operate(operator, firstNum, display.textContent);
+	  }
     operator = '/';
 	previousKeyType = 'operator';
     firstNum = display.textContent;
   }
   if (event.target.id === '+') {
+	  if (firstNum && operator && previousKeyType !== 'operator' && previousKeyType !== 'equals') {
+		  display.textContent = operate(operator, firstNum, display.textContent);
+	  }
     operator = '+';
 	previousKeyType = 'operator';
     firstNum = display.textContent;
+	
   }
   if (event.target.id === '-') {
+	  	  if (firstNum && operator && previousKeyType !== 'operator' && previousKeyType !== 'equals') {
+		  display.textContent = operate(operator, firstNum, display.textContent);
+	  }
     operator = '-';
 	previousKeyType = 'operator';
     firstNum = display.textContent;
   }
   if (event.target.id === '=') {
-	secondNum = display.textContent;
-    result = operate(operator, firstNum, secondNum);
-    console.log(result);
-    display.textContent = result;
-    values = [result];
+	  if (previousKeyType === 'equals') {
+	  } else {
+	  previousKeyType = 'equals';
+//	secondNum = display.textContent;
+    result = operate(operator, firstNum, display.textContent);
+ //   console.log(result);
+	 display.textContent = result;
+	firstNum = result;
+	operator = '';
+    //firstNum = result;
+	  }
 }
 });
