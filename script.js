@@ -77,7 +77,7 @@ calculator.addEventListener('click', function(event) {
 		  display.textContent = operate(operator, firstNum, display.textContent);
 	  }
     operator = '+';
-	  reviousKeyType = 'operator';
+	  previousKeyType = 'operator';
     firstNum = display.textContent;
   }
   if (event.target.id === '-') {
